@@ -12,16 +12,18 @@ width=500
 def draw_lines(event,x,y,flags,param):
     global width;global height
     global lenght_of_line
+    global b,g,r
+
     if event == cv.EVENT_LBUTTONDOWN:
         if x<(lenght_of_line//2):
                 lines.append([(0,y),((lenght_of_line),y)])
-                cv.line(param,(0,y),((lenght_of_line),y),(20,255,0),8)
+                cv.line(param,(0,y),((lenght_of_line),y),(b,g,r),8)
         elif x>width-(lenght_of_line//2):
                 lines.append([(width-(lenght_of_line),y),(width,y)])
-                cv.line(param,(width-(lenght_of_line),y),(width,y),(20,255,0),8)
+                cv.line(param,(width-(lenght_of_line),y),(width,y),(b,g,r),8)
         else:
                 lines.append([(x-(lenght_of_line//2),y),(x+(lenght_of_line//2),y)])
-                cv.line(param,(x-(lenght_of_line//2),y),(x+(lenght_of_line//2),y),(20,255,0),8)
+                cv.line(param,(x-(lenght_of_line//2),y),(x+(lenght_of_line//2),y),(b,g,r),8)
     image_with_text = np.copy(param)
     cv.putText(image_with_text, "Drawing mode", (width//5,height-10), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
     
@@ -59,6 +61,8 @@ while working :
 
     if key == ord('d'):
         lenght_of_line=int(input("Please enter the size of your line "))
+        b,g,r=(input("Please enter the BGR scale of your line ").split())
+        b=int(b);g=int(g);r=int(r)
         cv.setMouseCallback("result",draw_lines,image)
     elif key == ord('e'):
         size_of_eraser=int(input("Please enter the size of your eraser "))
