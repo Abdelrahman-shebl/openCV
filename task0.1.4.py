@@ -39,7 +39,7 @@ while video.isOpened():
     if recording:
         out.write(frame)
 
-    if cv.waitKey(1) == ord("x"):
+    if cv.waitKey(1) == 27:
         break
     
 video.release()
