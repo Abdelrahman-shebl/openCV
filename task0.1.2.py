@@ -61,15 +61,14 @@ polygon_points = []
 polygons = []  
 
 def draw_polygons(param):
-    global b_p,g_p,r_p
     for polygon in polygons:
         if len(polygon) > 1:
-            cv.polylines(param, [np.array(polygon)], isClosed=True, color=(b_p, g_p, r_p), thickness=2)
+            cv.polylines(param, [np.array(polygon)], isClosed=True, color=(0, 0, 0), thickness=2)
  
 def draw_temp_polygon(param):
     if len(polygon_points) > 1:
-        cv.polylines(param, [np.array(polygon_points)], isClosed=True, color=(b_p, g_p, r_p), thickness=2)
-
+        cv.polylines(param, [np.array(polygon_points)], isClosed=True, color=(0, 0, 0), thickness=2)
+0
 def polygon(event, x, y, flags, param):
     global drawing_mode, polygon_points
 
@@ -101,8 +100,6 @@ while working :
     if key == ord('p'):
         drawing_mode = not drawing_mode
         if not drawing_mode:
-            b_p,g_p,r_p=(input("Please enter the BGR scale of your Polygon ").split())
-            b_p=int(b_p);g_p=int(g_p);r_p=int(r_p)
             cv.setMouseCallback("result",polygon,image)
 
             if len(polygon_points) > 1:
