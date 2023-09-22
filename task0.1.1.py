@@ -24,6 +24,7 @@ def draw_lines(event,x,y,flags,param):
         else:
                 lines.append([(x-(lenght_of_line//2),y),(x+(lenght_of_line//2),y)])
                 cv.line(param,(x-(lenght_of_line//2),y),(x+(lenght_of_line//2),y),(b,g,r),8)
+        print(lines)
     image_with_text = np.copy(param)
     cv.putText(image_with_text, "Drawing mode", (width//5,height-10), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
     
