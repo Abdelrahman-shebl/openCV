@@ -15,6 +15,7 @@ isDrawing = False
 
 def circle(event,x,y,flags,param):
     global width,height,circleCenter,circleRadius,isDrawing
+    global b_c,g_c,r_c
 
     if event == cv.EVENT_LBUTTONDOWN:
         isDrawing = True
@@ -32,7 +33,7 @@ def circle(event,x,y,flags,param):
 
 
     image_with_text = np.copy(param)
-    cv.circle(param,circleCenter,circleRadius,(0,0,0),-1)
+    cv.circle(param,circleCenter,circleRadius,(b_c,g_c,r_c),-1)
     cv.putText(image_with_text, "Circle mode", (width//5,height-10), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
     cv.imshow("result",image_with_text)
 
@@ -40,12 +41,13 @@ startX, startY = None, None
 
 def rectangle(event,x,y,flags,param):
         global width,height,isDrawing,startX,startY
+        global b_r,g_r,r_r
         if event == cv.EVENT_LBUTTONDOWN:
             isDrawing = True
             startX,startY=x,y
         elif event == cv.EVENT_MOUSEMOVE:
             if isDrawing:
-                cv.rectangle(param,(startX,startY),(x,y),(0,2,0),10)
+                cv.rectangle(param,(startX,startY),(x,y),(b_r,g_r,r_r),10)
         elif event == cv.EVENT_LBUTTONUP:
             isDrawing = False
         
@@ -59,13 +61,14 @@ polygon_points = []
 polygons = []  
 
 def draw_polygons(param):
+    global b_p,g_p,r_p
     for polygon in polygons:
         if len(polygon) > 1:
-            cv.polylines(param, [np.array(polygon)], isClosed=True, color=(255, 255, 255), thickness=2)
+            cv.polylines(param, [np.array(polygon)], isClosed=True, color=(b_p, g_p, r_p), thickness=2)
  
 def draw_temp_polygon(param):
     if len(polygon_points) > 1:
-        cv.polylines(param, [np.array(polygon_points)], isClosed=True, color=(255, 255, 255), thickness=2)
+        cv.polylines(param, [np.array(polygon_points)], isClosed=True, color=(b_p, g_p, r_p), thickness=2)
 
 def polygon(event, x, y, flags, param):
     global drawing_mode, polygon_points
@@ -86,15 +89,22 @@ while working :
     key = cv.waitKey(0)
 
     if key == ord('c'):
+        b_c,g_c,r_c=(input("Please enter the BGR scale of your Circle ").split())
+        b_c=int(b_c);g_c=int(g_c);r_c=int(r_c)
         cv.setMouseCallback("result",circle,image)
         
     if key == ord('r'):
+        b_r,g_r,r_r=(input("Please enter the BGR scale of your Rectangle ").split())
+        b_r=int(b_r);g_r=int(g_r);r_r=int(r_r)
         cv.setMouseCallback("result",rectangle,image)
 
     if key == ord('p'):
         drawing_mode = not drawing_mode
         if not drawing_mode:
+            b_p,g_p,r_p=(input("Please enter the BGR scale of your Polygon ").split())
+            b_p=int(b_p);g_p=int(g_p);r_p=int(r_p)
             cv.setMouseCallback("result",polygon,image)
+
             if len(polygon_points) > 1:
                 polygons.append(polygon_points.copy())
             polygon_points.clear()
